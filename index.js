@@ -1,26 +1,34 @@
 const csv1 = require("csvtojson");
 const fs = require("fs")
 const MATCHES_FILE_PATH = "./csv_data/matches.csv";
+const DELIVERIES_FILE_PATH="./csv_data/deliveries.csv"
 const matchesPlayedPerYear = require("./ipl/matchesPlayedPerYear");
 const matches_won = require("./ipl/matches_won.js")
+const extraruns =require("./ipl/extra")
 const JSON_OUTPUT_FILE_PATH = "./public/data.json";
 
 function main(){
     csv1()
     .fromFile(MATCHES_FILE_PATH)
     .then(matches => {
+      csv1()
+      .fromFile(DELIVERIES_FILE_PATH)
+      .then(delivery=>{
       let result=matchesPlayedPerYear(matches);
       let result1=matches_won(matches)
-      saveData(result,result1);
+      let result2 = extraruns(matches,delivery)
+      saveData(result,result1,result2);
+       } )
     });
     
     
 }
 
-function saveData(result,result1) {
+function saveData(result,result1,result2) {
     const jsonData = {
       matchesPlayedPerYear: result,
-      matches_won:result1
+      matches_won:result1,
+      extra_runs:result2
 
     };
     const jsonString = JSON.stringify(jsonData);

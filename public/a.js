@@ -15,16 +15,15 @@ function fetchAndVisualizeData() {
   function visualizeData(data) {
     // console.log(data.matches_won)
     console.log("resultew")
-    visualizeproblems(data.matchesPlayedPerYear,data.matches_won);
+    visualizeproblems(data.matchesPlayedPerYear,data.matches_won,data.extra_runs);
     return;
   }
   
-  function visualizeproblems(matchesPlayedPerYear,matches_won) {
+  function visualizeproblems(matchesPlayedPerYear,matches_won,extra_runs) {
     const seriesData = [];
     for (let year in matchesPlayedPerYear) {
       seriesData.push([year, matchesPlayedPerYear[year]]);
     }
-  console.log(matches_won)
     Highcharts.chart("matches-played-per-year", {
       chart: {
         type: "column"
@@ -219,6 +218,51 @@ function fetchAndVisualizeData() {
 
   ]
   });
+  const seriesdata1=[];
+  for(let nam in extra_runs ){
+      seriesdata1.push([nam, extra_runs[nam]])
+  }
+  console.log(seriesdata1)
+Highcharts.chart("extra_runs", {
+chart: {
+  type: 'column'
+},
+title: {
+  text: 'IPL 2016'
+},
+subtitle: {
+  text: 'Source:IPL.com'
+},
+xAxis: {
+  type: 'category',
+  labels: {
+      rotation: -45,
+      style: {
+          fontSize: '13px',
+          fontFamily: 'Verdana, sans-serif'
+      }
+  }
+},
+yAxis: {
+  min: 0,
+  title: {
+      text: 'extra_runs'
+  }
+},
+legend: {
+  enabled: false
+},
+tooltip: {
+  pointFormat: '<b>{point.y:.1f}</b>'
+},
+series: [
+  {
+      name:"names",
+      data:seriesdata1
+  }
+
+]
+})
 
   }
   
