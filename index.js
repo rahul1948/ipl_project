@@ -5,6 +5,7 @@ const DELIVERIES_FILE_PATH="./csv_data/deliveries.csv"
 const matchesPlayedPerYear = require("./ipl/matchesPlayedPerYear");
 const matches_won = require("./ipl/matches_won.js")
 const extraruns =require("./ipl/extra")
+const economical_bowler = require("./ipl/economy")
 const JSON_OUTPUT_FILE_PATH = "./public/data.json";
 
 function main(){
@@ -17,18 +18,20 @@ function main(){
       let result=matchesPlayedPerYear(matches);
       let result1=matches_won(matches)
       let result2 = extraruns(matches,delivery)
-      saveData(result,result1,result2);
+      let result3 = economical_bowler(matches,delivery)
+      saveData(result,result1,result2,result3);
        } )
     });
     
     
 }
 
-function saveData(result,result1,result2) {
+function saveData(result,result1,result2,result3) {
     const jsonData = {
       matchesPlayedPerYear: result,
       matches_won:result1,
-      extra_runs:result2
+      extra_runs:result2,
+      economical_bowler:result3
 
     };
     const jsonString = JSON.stringify(jsonData);

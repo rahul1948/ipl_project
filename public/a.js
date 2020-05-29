@@ -13,13 +13,11 @@ function fetchAndVisualizeData() {
 
 
   function visualizeData(data) {
-    // console.log(data.matches_won)
-    console.log("resultew")
-    visualizeproblems(data.matchesPlayedPerYear,data.matches_won,data.extra_runs);
+    visualizeproblems(data.matchesPlayedPerYear,data.matches_won,data.extra_runs,data.economical_bowler);
     return;
   }
   
-  function visualizeproblems(matchesPlayedPerYear,matches_won,extra_runs) {
+  function visualizeproblems(matchesPlayedPerYear,matches_won,extra_runs,result) {
     const seriesData = [];
     for (let year in matchesPlayedPerYear) {
       seriesData.push([year, matchesPlayedPerYear[year]]);
@@ -222,7 +220,6 @@ function fetchAndVisualizeData() {
   for(let nam in extra_runs ){
       seriesdata1.push([nam, extra_runs[nam]])
   }
-  console.log(seriesdata1)
 Highcharts.chart("extra_runs", {
 chart: {
   type: 'column'
@@ -263,6 +260,51 @@ series: [
 
 ]
 })
+const seriesdata =[];
+for(let i=0;i<result.length;i++){
+    var name =result[i].bowler
+    var a =result[i].economy
+    var c=a.toFixed(2)
+    var b=parseFloat(c)
+  seriesdata.push([name,b])
+}
+Highcharts.chart("economical_bowler", {
+chart: {
+type: 'column'
+},
+title: {
+text: 'IPL 2015'
+},
+subtitle: {
+text: 'Source: <a href="https://www.iplt20.com/">IPL.com</a>'
+},
+xAxis: {
+type: 'category',
+labels: {
+    rotation: -45,
+    style: {
+        fontSize: '13px',
+        fontFamily: 'Verdana, sans-serif'
+    }
+}
+},
+yAxis: {
+min: 0,
+title: {
+    text: 'top ten economical bowler'
+}
+},
+legend: {
+enabled: false
+},
+tooltip: {
+pointFormat: 'economy: <b>{point.y:.2f}</b>'
+},
+series: [{
+name: 'names',
+data: seriesdata
 
-  }
+}]
+})
+}
   
