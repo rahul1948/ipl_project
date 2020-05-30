@@ -5,10 +5,79 @@ function fetchAndVisualizeData() {
           console.log('error')
       })
       .then(visualizeData)
-      
+      var ap=document.getElementById("touch")
+      ap.addEventListener("click",function(event){
+         event.preventDefault()
+           //let val=document.getElementById("touch").nodeValue
+           let val = document.getElementById("num").value
+           var url =`http://localhost:3000/economy?year=${val}`
+           getdatas(url,val);
+       
+       })
+          
   }
   
   fetchAndVisualizeData();
+  function getdatas(url,value) {
+    if(value>=2008&&value<=2019){
+     fetch(url).then(res=>res.json()).then(data=>{
+       console.log(data)
+       visualizeeconomy(data,value)
+         })
+       }
+       else{
+         document.getElementById("tr").innerHTML="Error:year should be between 2008 to 2019"
+       }
+   }
+   function visualizeeconomy(res,value){
+    const series1 =[];
+    for(let i=0;i<res.length;i++){
+        var name =res[i].bowler
+        var a =res[i].economy
+         var c=a.toFixed(2)
+        var b=parseFloat(a)
+      series1.push([name,b])
+    }
+Highcharts.chart("tr", {
+chart: {
+    type: 'column'
+},
+title: {
+    text: `IPL ${value}`
+},
+subtitle: {
+    text: 'Source: <a href="https://www.iplt20.com/">IPL.com</a>'
+},
+xAxis: {
+    type: 'category',
+    labels: {
+        rotation: -45,
+        style: {
+            fontSize: '13px',
+            fontFamily: 'Verdana, sans-serif'
+        }
+    }
+},
+yAxis: {
+    min: 0,
+    title: {
+        text: 'top ten economical bowler'
+    }
+},
+legend: {
+    enabled: false
+},
+tooltip: {
+    pointFormat: 'economy: <b>{point.y:.2f}</b>'
+},
+series: [{
+    name: 'names',
+    data: series1
+   
+}]
+})
+}
+  
 
 
 
@@ -53,7 +122,6 @@ function fetchAndVisualizeData() {
     data7=[],data8=[],data9=[],data10=[],data11=[],data12=[],data13=[],data6=[];
     
     for(let ob in matches_won){
-      console.log(ob)
             if(Object.keys(matches_won[ob]).includes("Deccan Chargers")){
               let a=(matches_won[ob]["Deccan Chargers"])
               data.push(a)
@@ -316,15 +384,12 @@ for(let first in datas ){
     for(let ab in datas[first]){
       if((dat.includes(ab))){
         let s = dat.indexOf(ab);
-        console.log(s)
         seriesdata3[s].data.push(datas[first][ab]);
       }else{ dat.push(ab)
       seriesdata3.push({name:ab,data:[datas[first][ab]]})
       }
      }
 }
-console.log(arr)
-console.log(seriesdata3)
 Highcharts.chart('winningteampervenue', {
 chart: {
    type: 'bar'
