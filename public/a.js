@@ -13,11 +13,11 @@ function fetchAndVisualizeData() {
 
 
   function visualizeData(data) {
-    visualizeproblems(data.matchesPlayedPerYear,data.matches_won,data.extra_runs,data.economical_bowler);
+    visualizeproblems(data.matchesPlayedPerYear,data.matches_won,data.extra_runs,data.economical_bowler,data.winningteam_pervenue);
     return;
   }
   
-  function visualizeproblems(matchesPlayedPerYear,matches_won,extra_runs,result) {
+  function visualizeproblems(matchesPlayedPerYear,matches_won,extra_runs,result,datas) {
     const seriesData = [];
     for (let year in matchesPlayedPerYear) {
       seriesData.push([year, matchesPlayedPerYear[year]]);
@@ -305,6 +305,51 @@ name: 'names',
 data: seriesdata
 
 }]
+})
+let seriesdata3=[];
+let arr=[];
+let dat=[];
+for(let first in datas ){
+ let a =first+'';
+ if(!(arr.includes(a)))
+    {arr.push(first)}
+    for(let ab in datas[first]){
+      if((dat.includes(ab))){
+        let s = dat.indexOf(ab);
+        console.log(s)
+        seriesdata3[s].data.push(datas[first][ab]);
+      }else{ dat.push(ab)
+      seriesdata3.push({name:ab,data:[datas[first][ab]]})
+      }
+     }
+}
+console.log(arr)
+console.log(seriesdata3)
+Highcharts.chart('winningteampervenue', {
+chart: {
+   type: 'bar'
+},
+title: {
+   text: 'Stacked bar chart'
+},
+xAxis: {
+   categories: arr
+},
+yAxis: {
+   min: 0,
+   title: {
+       text: 'macthes vs stadium'
+   }
+},
+legend: {
+   reversed: true
+},
+plotOptions: {
+   series: {
+       stacking: 'normal'
+   }
+},
+series: seriesdata3
 })
 }
   
