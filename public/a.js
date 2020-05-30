@@ -10,7 +10,7 @@ function fetchAndVisualizeData() {
          event.preventDefault()
            //let val=document.getElementById("touch").nodeValue
            let val = document.getElementById("num").value
-           var url =`http://localhost:3000/economy?year=${val}`
+           var url =`/economy?year=${val}`
            getdatas(url,val);
        
        })
